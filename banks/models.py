@@ -1,6 +1,6 @@
 from django.db import models
 
-from BMS.base_models import BaseModel
+from BMS.models import BaseModel
 
 
 class Bank(BaseModel):
@@ -20,7 +20,7 @@ class Bank(BaseModel):
 
 class Branch(BaseModel):
     name = models.CharField(max_length = 100)
-    branch_code = models.CharField(max_length = 16)
+    branch_code = models.CharField(max_length = 55)
     address = models.TextField(blank = True)
 
     bank = models.ForeignKey("banks.Bank", on_delete=models.CASCADE, related_name="branches")

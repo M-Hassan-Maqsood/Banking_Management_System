@@ -1,10 +1,10 @@
 from django.contrib import admin
 from users.models import User
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
 @admin.register(User)
-class UserAdmin(UserAdmin):
+class CustomUserAdmin(BaseUserAdmin):
     list_display = ("id", "username", "email", "phone")
     search_fields = ("username", "email", "phone", "first_name", "last_name")
     list_filter = ("is_staff", "is_superuser", "is_active")
@@ -19,6 +19,6 @@ class UserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
-            "fields": ("username", "phone", "date_of_birth", "password1", "password2"),
+            "fields": ("username", "phone", "date_of_birth", "password1", "password2",),
         }),
     )

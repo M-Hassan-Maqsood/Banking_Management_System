@@ -1,18 +1,16 @@
 from django.db import models
 
-from accounts.choices import ACCOUNT_TYPES
-from BMS.base_models import BaseModel
+from BMS.choices import AccountType
+from BMS.models import BaseModel
 
 
 class Account(BaseModel):
-    account_number = models.CharField(max_length = 20)
-
-    account_type = models.CharField(max_length = 20, choices = ACCOUNT_TYPES)
+    account_number = models.IntegerField()
+    account_type = models.CharField(max_length = 20, choices=AccountType.choices)
     balance = models.PositiveIntegerField(default = 0)
-    is_active = models.BooleanField(default = True)
 
-    user = models.ForeignKey("users.User", on_delete = models.CASCADE, related_name = "user_accounts")
-    bank_branch = models.ForeignKey("banks.Branch", on_delete = models.CASCADE, related_name = "branch_accounts")
+    user = models.ForeignKey("users.User", on_delete = models.CASCADE, related_name = "customer_accounts")
+    branch = models.ForeignKey("banks.Branch", on_delete = models.CASCADE, related_name = "branch_accounts")
 
     class Meta:
         db_table = "account"

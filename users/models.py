@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from BMS.base_models import BaseModel
+from BMS.models import BaseModel
 
 
 class User(AbstractUser, BaseModel):
