@@ -6,7 +6,7 @@ from BMS.models import BaseModel
 
 class User(AbstractUser, BaseModel):
     phone = models.CharField(max_length = 15)
-    date_of_birth = models.DateField(null = True)
+    date_of_birth = models.DateField()
 
     class Meta:
         db_table = "user"
