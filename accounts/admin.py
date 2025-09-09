@@ -4,6 +4,6 @@ from accounts.models import Account
 
 @admin.register(Account)
 class AccountAdmin(admin.ModelAdmin):
-    list_display = ("id", "account_number", "user",)
-    search_fields = ("account_number", "user__username", "bank_branch__name",)
+    list_display = ("id", "account_number", "user", "is_active", "account_type", "branch")
+    search_fields = ("account_number",)
     list_filter = ("account_type", "is_active", "branch",)

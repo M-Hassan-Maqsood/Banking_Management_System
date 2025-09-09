@@ -23,7 +23,7 @@ class Branch(BaseModel):
     branch_code = models.CharField(max_length = 55)
     address = models.TextField(blank = True)
 
-    bank = models.ForeignKey("banks.Bank", on_delete=models.CASCADE, related_name="branches")
+    bank = models.ForeignKey("banks.Bank", on_delete = models.CASCADE, related_name = "branches")
 
     class Meta:
         db_table = "branch"

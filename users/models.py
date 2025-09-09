@@ -10,6 +10,10 @@ class User(AbstractUser, BaseModel):
 
     REQUIRED_FIELDS = ["phone", "date_of_birth"]
 
+    @property
+    def full_name(self):
+        return self.first_name + " " + self.last_name
+
     class Meta:
         db_table = "user"
         verbose_name = "User"
