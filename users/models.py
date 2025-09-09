@@ -8,7 +8,7 @@ class User(AbstractUser, BaseModel):
     phone = models.CharField(max_length = 15)
     date_of_birth = models.DateField()
 
-    REQUIRED_FIELDS = ["date_of_birth"]
+    REQUIRED_FIELDS = ["phone", "date_of_birth"]
 
     class Meta:
         db_table = "user"
