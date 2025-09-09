@@ -14,4 +14,4 @@ class User(AbstractUser, BaseModel):
         verbose_name_plural = "Users"
 
     def __str__(self):
-        return f"{id} - {self.username}"
+        return f"{self.id} - {self.username}"

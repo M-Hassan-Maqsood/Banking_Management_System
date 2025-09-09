@@ -5,7 +5,7 @@ from BMS.models import BaseModel
 
 class Bank(BaseModel):
     name = models.CharField(max_length = 100)
-    swift_code = models.CharField(max_length = 16)
+    swift_code = models.CharField(max_length = 55)
     is_islamic = models.BooleanField(default = False)
     established_date = models.DateField()
 
@@ -15,7 +15,7 @@ class Bank(BaseModel):
         verbose_name_plural = "Banks"
 
     def __str__(self):
-        return f"{id} - {self.name}"
+        return f"{self.id} - {self.name}"
 
 
 class Branch(BaseModel):
@@ -31,4 +31,4 @@ class Branch(BaseModel):
         verbose_name_plural = "Branches"
 
     def __str__(self):
-        return f"{id} - {self.name}"
+        return f"{self.id} - {self.name}"

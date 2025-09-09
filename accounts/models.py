@@ -6,7 +6,7 @@ from BMS.models import BaseModel
 
 class Account(BaseModel):
     account_number = models.IntegerField()
-    account_type = models.CharField(max_length = 20, choices=AccountType.choices)
+    account_type = models.CharField(max_length = 55, choices=AccountType.choices)
     balance = models.PositiveIntegerField(default = 0)
 
     user = models.ForeignKey("users.User", on_delete = models.CASCADE, related_name = "customer_accounts")
