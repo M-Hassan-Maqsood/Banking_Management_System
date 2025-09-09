@@ -8,6 +8,8 @@ class User(AbstractUser, BaseModel):
     phone = models.CharField(max_length = 15)
     date_of_birth = models.DateField()
 
+    REQUIRED_FIELDS = ["date_of_birth"]
+
     class Meta:
         db_table = "user"
         verbose_name = "User"
