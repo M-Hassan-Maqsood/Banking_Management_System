@@ -8,8 +8,8 @@ A Banking Management System that manages banks, branches, customer accounts, and
 **Core Models & Admin**
 
 ### Setup & Models
-* Create Django project with apps: banks, accounts, users
-* Models to create:
+* Django project created with apps: banks, accounts, users
+* Models implemented:
   * User (extend AbstractUser with phone, date_of_birth)
   * Bank (name, swift_code, is_islamic, established_date)
   * BankBranch (bank FK, name, branch_code, address)
