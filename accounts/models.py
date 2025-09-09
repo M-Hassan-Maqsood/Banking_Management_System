@@ -9,8 +9,8 @@ class Account(BaseModel):
     account_type = models.CharField(max_length = 55, choices=AccountType.choices)
     balance = models.PositiveIntegerField(default = 0)
 
-    user = models.ForeignKey("users.User", on_delete = models.CASCADE, related_name = "customer_accounts")
-    branch = models.ForeignKey("banks.Branch", on_delete = models.CASCADE, related_name = "branch_accounts")
+    user = models.ForeignKey("users.User", on_delete = models.CASCADE, related_name = "accounts")
+    branch = models.ForeignKey("banks.Branch", on_delete = models.CASCADE, related_name = "accounts")
 
     class Meta:
         db_table = "account"
