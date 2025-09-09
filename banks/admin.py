@@ -11,6 +11,6 @@ class BankAdmin(admin.ModelAdmin):
 
 @admin.register(Branch)
 class BranchAdmin(admin.ModelAdmin):
-    list_display = ("id", "name",)
-    search_fields = ("name", "branch_code", "bank__name",)
+    list_display = ("id", "branch_code", "name", "bank")
+    search_fields = ("name", "branch_code",)
     list_filter = ("bank",)
