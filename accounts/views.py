@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-
 from accounts.models import Account
 
 

@@ -8,7 +8,7 @@ A Banking Management System that manages banks, branches, customer accounts, and
 **Core Models & Admin**
 
 ### Setup & Models
-* Django project created with apps: banks, accounts, users
+* Django project created with apps: `banks`, `accounts`, `users`
 * Models implemented:
   * User (extend AbstractUser with phone, date_of_birth)
   * Bank (name, swift_code, is_islamic, established_date)
@@ -17,7 +17,7 @@ A Banking Management System that manages banks, branches, customer accounts, and
 
 ### Admin Setup
 * All models were registered in the Django admin.
-* list_display, list_filter and search_fields were added for each model to improve data management.
+* `list_display`, `list_filter` and `search_fields` were added for each model to improve data management.
 
 ### ORM Practice
 * Django shell was used to practice and verify ORM operations:
@@ -52,3 +52,30 @@ A Banking Management System that manages banks, branches, customer accounts, and
     ```bash
     islamic_banks = Bank.objects.filter(is_islamic=True, branches__accounts__is_active=True).distinct()
     ```
+  ---
+
+## Phase 2: Basic Django Views  
+**Authentication & Simple Views**
+
+### Authentication
+* Implemented **custom login and logout views** using Django’s authentication system.  
+* Added **`@login_required` decorators**  
+* Configured `LOGIN_URL` so unauthenticated users are always redirected to the login page.  
+
+### Views
+* **/banks/** – Class-based view to list all banks, including:  
+  - Bank name  
+  - Whether the bank is *Islamic* (`is_islamic`)  
+  - Number of branches  
+
+* **/accounts/** – Class-based view to list the **logged-in user’s accounts**, showing:  
+  - Bank name  
+  - Account number  
+  - Balance  
+
+### Additional Information
+* Redirects are **dynamic**: after login, the user is redirected back to the originally requested page.  
+* Added a simple **login template** (`users/login.html`) with username.  
+* Logout redirects users back to the login page.  
+
+---

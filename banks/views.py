@@ -19,4 +19,5 @@ class BankListView(View):
             }
             for bank in banks
         ]
+
         return JsonResponse({"banks": data})
