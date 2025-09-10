@@ -75,7 +75,7 @@ A Banking Management System that manages banks, branches, customer accounts, and
 
 ### Additional Information
 * Redirects are **dynamic**: after login, the user is redirected back to the originally requested page.  
-* Added a simple **login template** (`users/login.html`) with username.  
+* Added a simple **login template** (`login.html`) with username.  
 * Logout redirects users back to the login page.  
 
 ---
