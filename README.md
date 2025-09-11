@@ -73,9 +73,50 @@ A Banking Management System that manages banks, branches, customer accounts, and
   - Account number  
   - Balance  
 
-### Additional Information
-* Redirects are **dynamic**: after login, the user is redirected back to the originally requested page.  
-* Added a simple **login template** (`login.html`) with username.  
-* Logout redirects users back to the login page.  
+### API Responses
 
+**Banks List:**
+```json
+{
+  "banks": [
+    {
+      "name": "Meezan Bank",
+      "is_islamic": true,
+      "branch_count": 2
+    },
+    {
+      "name": "HBL",
+      "is_islamic": false,
+      "branch_count": 1
+    },
+    {
+      "name": "ABL",
+      "is_islamic": true,
+      "branch_count": 1
+    }
+  ]
+}
+```
+**Accounts List:**
+```json
+{
+  "accounts": [
+    {
+      "bank_name": "HBL",
+      "account_number": 1234567890,
+      "balance": 36437
+    },
+    {
+      "bank_name": "Meezan Bank",
+      "account_number": 72935237242,
+      "balance": 6005300
+    },
+    {
+      "bank_name": "HBL",
+      "account_number": 72935237242,
+      "balance": 8932789
+    }
+  ]
+}
+```
 ---
