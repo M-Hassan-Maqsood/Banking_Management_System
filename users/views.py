@@ -1,24 +1,30 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+from users.forms import LoginForm
 
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username = username, password = password)
+        form = LoginForm(request.POST)
 
-        if user:
-            login(request, user)
-            next_url = request.POST.get("next")
-            if next_url:
-                return redirect(next_url)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(request, username = username, password = password)
 
-            return redirect("/accounts/accounts/")
+            if user:
+                login(request, user)
+                next_url = request.POST.get("next")
+                if next_url:
+                    return redirect(next_url)
 
-    return render(request, "login.html")
+                return redirect("/accounts/")
+    else:
+        form = LoginForm()
+
+    return render(request, "login.html", {"form": form})
 
 def logout_view(request):
     logout(request)
 
-    return redirect("/users/login/")
+    return redirect("/login/")

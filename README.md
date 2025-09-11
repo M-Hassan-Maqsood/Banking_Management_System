@@ -59,16 +59,16 @@ A Banking Management System that manages banks, branches, customer accounts, and
 
 ### Authentication
 * Implemented **custom login and logout views** using Django’s authentication system.  
-* Added **`@login_required` decorators**  
+* Added **`@login_required` decorators for views**  
 * Configured `LOGIN_URL` so unauthenticated users are always redirected to the login page.  
 
 ### Views
-* **/banks/** – Class-based view to list all banks, including:  
+* **/banks/** – Class-based view to list all banks, having the following information:  
   - Bank name  
   - Whether the bank is *Islamic* (`is_islamic`)  
   - Number of branches  
 
-* **/accounts/** – Class-based view to list the **logged-in user’s accounts**, showing:  
+* **/accounts/** – Class-based view to list the **logged-in user accounts**, showing:  
   - Bank name  
   - Account number  
   - Balance  
