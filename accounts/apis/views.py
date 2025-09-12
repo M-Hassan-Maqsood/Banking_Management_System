@@ -1,24 +1,14 @@
-from rest_framework import viewsets, generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
-from accounts.models import Account
 from accounts.serializers import AccountSerializer
+from accounts.models import Account
 
 
-class AccountListAPIView(APIView):
-    def get(self, request):
-        accounts = Account.objects.all().select_related("branch__bank")
-        serializer = AccountSerializer(accounts, many = True)
-
-        return Response(serializer.data)
-
-
-class AccountGenericAPIView(generics.ListAPIView):
+class AccountListCreateAPIView(ListCreateAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
 
 
-class AccountViewSet(viewsets.ReadOnlyModelViewSet):
+class AccountDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
