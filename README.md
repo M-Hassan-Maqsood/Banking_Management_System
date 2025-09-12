@@ -97,3 +97,38 @@ Implemented the same endpoints using 3 different approaches (separate branch for
 - BankViewSet
 - AccountViewSet
 ---
+
+# Phase 4: DRF API Deep Dive 
+
+## Final API Implementation (Production-Ready Views)  
+Replaced the learning implementations with DRF **specific generic views** for clean and scalable APIs:  
+
+- **Banks** `ListCreateAPIView` (`GET/POST /api/banks/`)  
+- **Bank Detail** `RetrieveUpdateDestroyAPIView` (`GET/PATCH/DELETE /api/banks/{id}/`)  
+- **Accounts** `ListCreateAPIView` (`GET/POST /api/accounts/`)  
+- **Account Detail** `RetrieveUpdateDestroyAPIView` (`GET/PATCH/DELETE /api/accounts/{id}/`)  
+
+---
+
+## Required APIs  
+
+### Banks  
+- `GET /api/banks/` → List all banks  
+- `POST /api/banks/` → Create new bank  
+- `GET /api/banks/{id}/` → Retrieve bank detail  
+- `PATCH /api/banks/{id}/` → Update bank  
+- `DELETE /api/banks/{id}/` → Delete bank  
+
+### Accounts  
+- `GET /api/accounts/`  List user’s accounts (with `bank_name`)  
+- `POST /api/accounts/`  Create account (via username + branch name)  
+- `GET /api/accounts/{id}/`  Retrieve account detail  
+- `PATCH /api/accounts/{id}/`  Update account  
+- `DELETE /api/accounts/{id}/`  Delete account  
+
+---
+
+## Postman Testing  
+- A **Postman collection** was created including all above endpoints.  
+- APIs tested successfully with `GET`, `POST`, `PATCH`, and `DELETE` requests.  
+- Sample request body for account creation:
