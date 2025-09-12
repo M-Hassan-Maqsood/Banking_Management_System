@@ -101,7 +101,7 @@ Implemented the same endpoints using 3 different approaches (separate branch for
 # Phase 4: DRF API Deep Dive 
 
 ## Final API Implementation (Production-Ready Views)  
-Replaced all the existing code in `apis/urls.py` with the following:
+Replaced all the existing code in `apis/urls.py` with the following Generic views:
 - **Banks** `ListCreateAPIView` (`GET/POST /api/banks/`)  
 - **Bank Detail** `RetrieveUpdateDestroyAPIView` (`GET/PATCH/DELETE /api/banks/{id}/`)  
 - **Accounts** `ListCreateAPIView` (`GET/POST /api/accounts/`)  
