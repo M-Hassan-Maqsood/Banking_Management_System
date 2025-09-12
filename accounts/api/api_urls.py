@@ -4,7 +4,7 @@ from rest_framework import routers
 from accounts.api.api_views import AccountListAPIView, AccountGenericView, AccountViewSet
 
 router = routers.DefaultRouter()
-router.register("accounts/viewset", AccountViewSet, basename = "accounts")
+router.register("accounts/viewset", AccountViewSet, basename = "accounts-viewset")
 
 urlpatterns = [
     path("accounts/api-view", AccountListAPIView.as_view(), name = "accounts-api"),
