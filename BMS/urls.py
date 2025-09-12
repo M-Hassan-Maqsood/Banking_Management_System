@@ -25,4 +25,7 @@ urlpatterns = [
     path("logout/", include("users.urls")),
     path("accounts/", include("accounts.urls")),
     path("banks/", include("banks.urls")),
+    path("api/banks/", include("banks.apis.urls")),
+    path("api/accounts/", include("accounts.apis.urls")),
+
 ]
