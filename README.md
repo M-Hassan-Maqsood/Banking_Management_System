@@ -131,4 +131,3 @@ Replaced the learning implementations with DRF **specific generic views** for cl
 ## Postman Testing  
 - A **Postman collection** was created including all above endpoints.  
 - APIs tested successfully with `GET`, `POST`, `PATCH`, and `DELETE` requests.  
-- Sample request body for account creation:
