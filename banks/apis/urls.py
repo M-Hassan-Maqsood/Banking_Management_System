@@ -1,14 +1,9 @@
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 
-from banks.apis.views import BankListAPIView,BankViewSet, BankGenericAPIView
+from banks.apis.views import BankListCreateAPIView,BankDetailAPIView
 
-router = routers.DefaultRouter()
-router.register("viewset-api", BankViewSet, basename = "bank-viewset")
 
 urlpatterns = [
-    path("api-view", BankListAPIView.as_view(), name = "banks-apis"),
-    path("generic-api", BankGenericAPIView.as_view(), name = "banks-generic"),
-
-    path("", include(router.urls)),
+    path("", BankListCreateAPIView.as_view(), name = "banks-list-create-api"),
+    path("<int:pk>/", BankDetailAPIView.as_view(), name = "banks-detail-api"),
 ]
