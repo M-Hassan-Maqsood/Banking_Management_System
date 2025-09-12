@@ -14,7 +14,7 @@ class AccountListAPIView(APIView):
         return Response(serializer.data)
 
 
-class AccountGenericApiView(generics.ListAPIView):
+class AccountGenericAPIView(generics.ListAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
 
