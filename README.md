@@ -101,8 +101,7 @@ Implemented the same endpoints using 3 different approaches (separate branch for
 # Phase 4: DRF API Deep Dive 
 
 ## Final API Implementation (Production-Ready Views)  
-Replaced the learning implementations with DRF **specific generic views** for clean and scalable APIs:  
-
+Replaced all the existing code in `apis/urls.py` with the following:
 - **Banks** `ListCreateAPIView` (`GET/POST /api/banks/`)  
 - **Bank Detail** `RetrieveUpdateDestroyAPIView` (`GET/PATCH/DELETE /api/banks/{id}/`)  
 - **Accounts** `ListCreateAPIView` (`GET/POST /api/accounts/`)  
@@ -129,6 +128,6 @@ Replaced the learning implementations with DRF **specific generic views** for cl
 ---
 
 ## Postman Testing  
-- A **Postman collection** was created including all above endpoints.  
+- A **[Postman collection](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262)** was created including all above endpoints.  
 - APIs tested successfully with `GET`, `POST`, `PATCH`, and `DELETE` requests.  
 - Sample request body for account creation:
