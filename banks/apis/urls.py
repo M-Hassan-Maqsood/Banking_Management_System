@@ -4,6 +4,6 @@ from banks.apis.views import BankListCreateAPIView,BankDetailAPIView
 
 
 urlpatterns = [
-    path("", BankListCreateAPIView.as_view(), name = "banks-list-create"),
-    path("<int:pk>/", BankDetailAPIView.as_view(), name = "banks-detail"),
+    path("", BankListCreateAPIView.as_view(), name = "banks-list-create-api"),
+    path("<int:pk>/", BankDetailAPIView.as_view(), name = "banks-detail-api"),
 ]

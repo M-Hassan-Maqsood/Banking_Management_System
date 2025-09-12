@@ -1,14 +1,14 @@
-from rest_framework import generics
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from banks.models import Bank
 from banks.serializers import BankSerializer
 
 
-class BankListCreateAPIView(generics.ListCreateAPIView):
+class BankListCreateAPIView(ListCreateAPIView):
     queryset = Bank.objects.all()
     serializer_class = BankSerializer
 
 
-class BankDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class BankDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Bank.objects.all()
     serializer_class = BankSerializer
