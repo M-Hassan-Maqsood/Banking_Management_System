@@ -74,3 +74,26 @@ A Banking Management System that manages banks, branches, customer accounts, and
   - Balance  
 
 ---
+## Phase 3: DRF API Foundation
+**Transform to REST APIs**
+
+### Django REST Framework Setup
+* Installed Django REST Framework (DRF) and added to settings
+* Created serializers for Bank and Account models
+* Added nested field: `bank_name` inside `AccountSerializer`
+
+### Banks API - Learn Multiple Approaches
+Implemented the same endpoints using 3 different approaches (separate branch for each):
+* **APIView**
+- BankListAPIView
+- AccountListAPIView
+- Manually handled request/response
+
+* **Generic View** (ListAPIView)
+- BankListGenericView
+- AccountListGenericView
+
+* **ViewSet** (ReadOnlyModelViewSet)
+- BankViewSet
+- AccountViewSet
+---
