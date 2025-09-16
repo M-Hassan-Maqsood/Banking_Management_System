@@ -130,4 +130,4 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
 ## Postman Testing  
 - A **[Postman collection](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262)** was created including all above endpoints.  
 - APIs tested successfully with `GET`, `POST`, `PATCH`, and `DELETE` requests.  
-- Sample request body for account creation:
+
