@@ -137,18 +137,18 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
 
 ### Token Authentication
 * Configured **Token Authentication** in settings
-* Enabled `rest_framework.authtoken` and applied migrations
-* Created login API to return token
-* Implemented endpoint:  
+* Configured `rest_framework.authtoken` and ran migrations
+* Added Login API to return token
+* Added endpoint:  
   * `POST /api/auth/login/` - accepts username/password, returns token
 
 ### Protected APIs
-* Implemented APIs accessible only to authenticated users:
+* Added APIs accessible only to authenticated users:
   * `GET /api/accounts/` - lists **only the requesting user's accounts**
   * `PATCH /api/accounts/{id}/balance/` - update **account balance (owner only)**
 
 ### Staff-only APIs
-* Implemented staff-level access with custom permissions:
+* Added staff-level access with custom permissions:
   * `GET /api/accounts/{id}/` - retrieve **any account details (staff only)**
   * `DELETE /api/accounts/{id}/` - delete **any account (staff only)**
   * `PATCH /api/accounts/{id}/balance/` - update **any account balance (staff only)**

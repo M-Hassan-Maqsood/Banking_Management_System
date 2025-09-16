@@ -3,6 +3,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 
 class LoginAPIView(APIView):
@@ -14,7 +15,7 @@ class LoginAPIView(APIView):
         user = authenticate(username = username, password = password)
 
         if not user:
-            return Response({"error": "Invalid credentials"}, status = 401)
+            return Response({"error": "Invalid credentials"}, status = status.HTTP_401_UNAUTHORIZED)
         token, created = Token.objects.get_or_create(user = user)
 
-        return Response({"token": token.key})
+        return Response({"token": token})

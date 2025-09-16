@@ -1,7 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
-from rest_framework.permissions import IsAdminUser
 from rest_framework.exceptions import PermissionDenied
 
+from accounts.apis.permissions import IsStaffUser
 from accounts.serializers import AccountSerializer
 from accounts.models import Account
 
@@ -23,10 +23,10 @@ class AccountBalanceUpdateAPIView(UpdateAPIView):
         account = super().get_object()
         if self.request.user.is_staff or account.user == self.request.user:
             return account
-        raise PermissionDenied("You are not allowed to view this account")
+        raise PermissionDenied("You are not allowed to access this account")
 
 
 class StaffAccountDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsStaffUser]
