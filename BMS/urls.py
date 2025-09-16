@@ -27,5 +27,6 @@ urlpatterns = [
     path("banks/", include("banks.urls")),
     path("api/banks/", include("banks.apis.urls")),
     path("api/accounts/", include("accounts.apis.urls")),
+    path("api/auth/", include("users.apis.urls")),
 
 ]
