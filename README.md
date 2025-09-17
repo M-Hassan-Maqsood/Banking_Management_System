@@ -163,7 +163,7 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
 
 ### Filtering & Search
 * Installed `django-filter` and integrated with DRF.
-* Enhanced **Account List API** with advanced querying options:
+* Modified **Account List API** with advanced querying options:
   * **Filter by**:
     * `bank`, `account_type`, `is_islamic`
   * **Search by**:
@@ -171,23 +171,15 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
   * **Order by**:
     * `balance`, `created_at`, `username` of user
 
-**Example queries**:
-* `GET /api/accounts/?branch__bank__name=Meezan Bank`
+* **APIs**
+* All APIs have been tested and documented in [**Postman**](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262).
 * `GET /api/accounts/?account_type=current`
 * `GET /api/accounts/?branch__bank__is_islamic=true`
-* `GET /api/accounts/?search=waleed`
-* `GET /api/accounts/?ordering=-balance`
-
----
+* `GET /api/accounts/?search=waleed54`
+* `GET /api/accounts/?ordering=balance`
 
 ### Pagination
 * Added pagination support to **Account List API**
 * Default page size: **10 items**
-
-**Example queries**:
-* `GET /api/accounts/?page=1`
-* `GET /api/accounts/?page=2&ordering=-balance`
-* `GET /api/accounts/?page=3&account_type=savings`
-
 
 ---
