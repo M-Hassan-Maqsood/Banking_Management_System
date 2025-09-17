@@ -158,3 +158,36 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
 * Verified behavior for both **normal users** and **staff users**
 
 ---
+## Phase 6: Advanced Features
+**Production-ready APIs**
+
+### Filtering & Search
+* Installed `django-filter` and integrated with DRF.
+* Enhanced **Account List API** with advanced querying options:
+  * **Filter by**:
+    * `bank`, `account_type`, `is_islamic`
+  * **Search by**:
+    * `first_name`, `last_name`, `username` of user
+  * **Order by**:
+    * `balance`, `created_at`, `username` of user
+
+**Example queries**:
+* `GET /api/accounts/?branch__bank__name=Meezan Bank`
+* `GET /api/accounts/?account_type=current`
+* `GET /api/accounts/?branch__bank__is_islamic=true`
+* `GET /api/accounts/?search=waleed`
+* `GET /api/accounts/?ordering=-balance`
+
+---
+
+### Pagination
+* Added pagination support to **Account List API**
+* Default page size: **10 items**
+
+**Example queries**:
+* `GET /api/accounts/?page=1`
+* `GET /api/accounts/?page=2&ordering=-balance`
+* `GET /api/accounts/?page=3&account_type=savings`
+
+
+---

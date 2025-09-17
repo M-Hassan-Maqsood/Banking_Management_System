@@ -1,5 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.exceptions import PermissionDenied
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from accounts.apis.permissions import IsStaffUser
 from accounts.serializers import AccountSerializer
@@ -8,6 +10,12 @@ from accounts.models import Account
 
 class AccountListCreateAPIView(ListCreateAPIView):
     serializer_class = AccountSerializer
+
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['branch__bank__name', 'account_type', 'branch__bank__is_islamic']
+    search_fields = ['user__first_name', 'user__last_name', 'user__username']
+    ordering_fields = ['balance', 'created_at', 'user__username']
+
     def get_queryset(self):
         if self.request.user.is_staff:
             return Account.objects.all()
