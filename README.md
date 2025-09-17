@@ -130,4 +130,31 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
 ## Postman Testing  
 - A **[Postman collection](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262)** was created including all above endpoints.  
 - APIs tested successfully with `GET`, `POST`, `PATCH`, and `DELETE` requests.  
-- Sample request body for account creation:
+
+---
+## Phase 5: Authentication & Permissions
+**Secure API Access**
+
+### Token Authentication
+* Configured **Token Authentication** in settings
+* Configured `rest_framework.authtoken` and ran migrations
+* Added Login API to return token
+* Added endpoint:  
+  * `POST /api/auth/login/` - accepts username/password, returns token
+
+### Protected APIs
+* Added APIs accessible only to authenticated users:
+  * `GET /api/accounts/` - lists **only the requesting user's accounts**
+  * `PATCH /api/accounts/{id}/balance/` - update **account balance (owner only)**
+
+### Staff-only APIs
+* Added staff-level access with custom permissions:
+  * `GET /api/accounts/{id}/` - retrieve **any account details (staff only)**
+  * `DELETE /api/accounts/{id}/` - delete **any account (staff only)**
+  * `PATCH /api/accounts/{id}/balance/` - update **any account balance (staff only)**
+
+### Postman
+* Created and tested all authentication & permission based APIs in **[Postman](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262)**  
+* Verified behavior for both **normal users** and **staff users**
+
+---
