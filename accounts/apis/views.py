@@ -12,9 +12,9 @@ class AccountListCreateAPIView(ListCreateAPIView):
     serializer_class = AccountSerializer
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['branch__bank__name', 'account_type', 'branch__bank__is_islamic']
-    search_fields = ['user__first_name', 'user__last_name', 'user__username']
-    ordering_fields = ['balance', 'created_at', 'user__username']
+    filterset_fields = ["branch__bank__name", "account_type", "branch__bank__is_islamic"]
+    search_fields = ["user__first_name", "user__last_name", "user__username"]
+    ordering_fields = ["balance", "created_at", "user__username"]
 
     def get_queryset(self):
         if self.request.user.is_staff:
