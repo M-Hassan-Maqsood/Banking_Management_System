@@ -183,3 +183,29 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
 * Default page size: **10 items**
 
 ---
+## Phase 7: Configuration & Middleware
+**Enterprise Features**
+
+### Constance Setup
+* Installed `django-constance` with `MemoryBackend`
+* Added configuration variable:  
+  * `MAINTENANCE_MODE = False` (default)
+
+### Custom Middleware
+* Implemented custom middleware to enforce **maintenance mode**.
+* Behavior:
+  * If `MAINTENANCE_MODE = True`, all requests return **503 Service Unavailable** with message:  
+    `"The system is currently under maintenance. Please try again later."`
+  * Staff users can bypass maintenance mode.
+  * Normal users and anonymous requests are blocked during maintenance mode.
+
+### Postman
+* Verified using **[Postman](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262)** with different tokens:
+  * **Superuser and Staff token** - bypasses maintenance mode.
+  * **Normal user token** - blocked with 503 response.
+  * **No token / Anonymous** - blocked with 503 response.
+<<<<<<< HEAD
+=======
+
+-----
+>>>>>>> 54458aefd0533e14fb4709682396d1da33ae6caa
