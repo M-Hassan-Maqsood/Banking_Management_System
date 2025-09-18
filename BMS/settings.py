@@ -41,11 +41,18 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
+
+    "constance",
     
     "banks",
     "users",
     "accounts",
 ]
+
+CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
+CONSTANCE_CONFIG = {
+    "MAINTENANCE_MODE": (False, "Enable/disable maintenance mode", bool),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "BMS.middleware.MaintenanceModeMiddleware",
 ]
 
 ROOT_URLCONF = 'BMS.urls'
