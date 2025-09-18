@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    # Custom middleware to restrict user access during maintenance mode
     "BMS.middleware.MaintenanceModeMiddleware",
 ]
 
