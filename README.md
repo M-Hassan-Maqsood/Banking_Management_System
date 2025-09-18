@@ -204,3 +204,8 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
   * **Superuser and Staff token** - bypasses maintenance mode.
   * **Normal user token** - blocked with 503 response.
   * **No token / Anonymous** - blocked with 503 response.
+<<<<<<< HEAD
+=======
+
+-----
+>>>>>>> 54458aefd0533e14fb4709682396d1da33ae6caa

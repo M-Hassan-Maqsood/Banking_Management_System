@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from BMS.constance import CONSTANCE_CONFIG
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,7 +43,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
-
     "constance",
     
     "banks",
@@ -50,9 +51,6 @@ INSTALLED_APPS = [
 ]
 
 CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
-CONSTANCE_CONFIG = {
-    "MAINTENANCE_MODE": (False, "Enable/disable maintenance mode", bool),
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    # Custom middleware to restrict user access during maintenance mode
     "BMS.middleware.MaintenanceModeMiddleware",
 ]
 
