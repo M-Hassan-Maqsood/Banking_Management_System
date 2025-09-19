@@ -3,7 +3,6 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
-
 from accounts.apis.permissions import IsStaffUser
 from accounts.serializers import AccountSerializer
 from accounts.models import Account
