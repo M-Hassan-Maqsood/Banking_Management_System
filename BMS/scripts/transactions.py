@@ -70,3 +70,4 @@ def generate_transactions():
                     type = random.choice(["deposit", "withdrawal"]),
                     account = account,
                 )
+    print("All transactions done")
