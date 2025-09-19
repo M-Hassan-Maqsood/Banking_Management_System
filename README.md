@@ -204,8 +204,42 @@ Replaced all the existing code in `apis/urls.py` with the following Generic view
   * **Superuser and Staff token** - bypasses maintenance mode.
   * **Normal user token** - blocked with 503 response.
   * **No token / Anonymous** - blocked with 503 response.
-<<<<<<< HEAD
-=======
 
 -----
->>>>>>> 54458aefd0533e14fb4709682396d1da33ae6caa
+# Phase 9: Transactions Model & Sample Data
+
+**Extend Domain Models & Seed Data for Analytics**
+
+---
+
+## Setup & Models
+
+- Introduced a new **`Transaction`** model with the following fields:
+  - `account` - FK to `accounts.Account` (with `related_name="transactions"`, `on_delete=models.CASCADE`)  
+  - `date` - `DateField`  
+  - `amount` - `DecimalField(max_digits=12, decimal_places=2)`  
+  - `type` - `CharField` with choices:  
+    - `("deposit", "Deposit")`  
+    - `("withdrawal", "Withdrawal")`  
+
+- Applied migrations to update the schema  
+- Registered the `Transaction` model in **Django Admin**
+
+---
+
+## Sample Data Generation
+
+- Installed **`django-extensions`** for `shell_plus`  
+- Wrote a script to bulk-generate random but realistic data  
+
+The script performs the following:  
+
+- Create **4 Banks**  
+- Create **10 Users**, each linked to **2 Accounts** in different banks  
+- Create **30–50 Transactions per Account**, with:  
+  - Random dates limited to **2024 & 2025**  
+  - Mixed **Deposits** and **Withdrawals**
+
+ The transactions file is placed inside the **`scripts/`** folder for reuse  
+
+---
