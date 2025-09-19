@@ -6,7 +6,7 @@ from users.models import User
 from accounts.models import Account, Transaction
 
 
-def make_transactions():
+def generate_transactions():
     # Create Banks
     for row in range(4):
         month = random.randint(1, 12)
@@ -15,7 +15,7 @@ def make_transactions():
             name = f"Bank_{row + 1}",
             swift_code = f"BANKPAK{row + 1:03}",
             is_islamic = random.choice([True, False]),
-            established_date = datetime.date(row + 1778, month, day),
+            established_date = datetime.date(row + 1978, month, day),
         )
 
         # Create Branches for each Bank
@@ -35,7 +35,7 @@ def make_transactions():
             username = f"user{row + 1:03}",
             phone = f"+92333322{row + 2}",
             password = f"pas@Yt{row + 7}#U",
-            date_of_birth = datetime.date(row + 1998, month, day),
+            date_of_birth = datetime.date(row + 1990, month, day),
         )
 
     # Create Accounts
@@ -55,7 +55,7 @@ def make_transactions():
             )
 
             # Create Transactions for each Account
-            for _ in range(random.randint(30, 50)):
+            for transactions in range(random.randint(30, 50)):
                 year = random.choice([2024, 2025])
                 month = random.randint(1, 12)
                 day = random.randint(1, 28)
