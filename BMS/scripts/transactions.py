@@ -7,6 +7,7 @@ from accounts.models import Account, Transaction
 
 
 def generate_transactions():
+    print("Creating banks and branches...")
     # Create Banks
     for row in range(4):
         month = random.randint(1, 12)
@@ -26,6 +27,7 @@ def generate_transactions():
             bank = bank,
         )
 
+    print("Creating users...")
     # Create Users
     for row in range(10):
         month = random.randint(1, 12)
@@ -38,6 +40,7 @@ def generate_transactions():
             date_of_birth = datetime.date(row + 1990, month, day),
         )
 
+    print("Creating accounts and transactions...")
     # Create Accounts
     users = User.objects.all()
     banks = list(Bank.objects.all())
