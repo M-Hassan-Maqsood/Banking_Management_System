@@ -2,3 +2,4 @@
 djangorestframework == 3.16.1
 django-filter == 25.1
 django-constance == 4.3.2
+django-extensions == 4.1
