@@ -66,7 +66,6 @@ class AccountSummaryAPIView(RetrieveAPIView):
             start_date = None
 
         txn = Transaction.objects.filter(account_id = account_id)
-
         if year:
             txn = txn.filter(date__year = year)
         if month:
