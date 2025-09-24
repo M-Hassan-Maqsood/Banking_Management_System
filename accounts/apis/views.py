@@ -69,11 +69,8 @@ class AccountSummaryAPIView(RetrieveAPIView):
 
         if year:
             txn = txn.filter(date__year = year)
-            print(txn.count())
         if month:
             txn = txn.filter(date__month = month)
-            print(txn.count())
-
 
         summary = txn.aggregate(
             total_deposits = Coalesce(
@@ -96,25 +93,6 @@ class AccountSummaryAPIView(RetrieveAPIView):
             ),
             max_txn_amount = Coalesce(Max("amount"),Value(Decimal("0.00")))
         )
-        #print(txn.count())
-        print(summary["total_withdrawals"])
-        print(summary["total_deposits"])
-
-
-        txn_with_running_balance = txn.annotate(
-            running_balance= Coalesce(Window(
-                expression = Sum(
-            Case(
-                When(type = AmountType.Deposit.value, then = F("amount")),
-                When(type = AmountType.Withdrawal.value, then = F("amount")),
-                default = Value(0),
-                output_field = DecimalField(),
-            )
-        ),
-            order_by = ["date","id"]
-                ), Value(Decimal("0.00"))
-            )
-        )
 
         opening_balance = Decimal("0.00")
         if start_date:
@@ -122,17 +100,32 @@ class AccountSummaryAPIView(RetrieveAPIView):
                 account_id = account_id,
                 date__lt = start_date,
             ).aggregate(
-                balance = Coalesce(
+                balance=Coalesce(
                     Sum(
-                    Case(
-                    When(type = AmountType.Deposit.value, then = F("amount")),
-                    When(type = AmountType.Withdrawal.value, then = -F("amount")),
-                    default = Value(0),
-                    output_field = DecimalField(),
-                    )
+                        Case(
+                            When(type = AmountType.Deposit.value, then = F("amount")),
+                            When(type = AmountType.Withdrawal.value, then = -F("amount")),
+                            default = Value(0),
+                            output_field = DecimalField(),
+                        )
                     ), Value(Decimal("0.00"))
                 )
             )["balance"]
+
+        txn_with_running_balance = txn.annotate(
+            running_balance= Coalesce(Window(
+                expression = Sum(
+            Case(
+                When(type = AmountType.Deposit.value, then = F("amount")),
+                When(type = AmountType.Withdrawal.value, then = -F("amount")),
+                default = Value(0),
+                output_field = DecimalField(),
+            )
+        ),
+            order_by = ["date","id"]
+                ), Value(Decimal("0.00"))
+            ) + Value(opening_balance)
+        )
 
         min_running_balance = txn_with_running_balance.aggregate(
             min_balance = Coalesce(
