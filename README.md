@@ -252,14 +252,13 @@ GET /api/reports/{account_id}/summary/?year=YYYY&month=MM
 
 
 * **Query Parameters**
-- year - Optional. Filter transactions by year.
-- month - Optional. Must be used with year. Filters transactions within that month.
+- year (Optional) - Filter transactions by year.
+- month (Optional) - Filters transactions within that month.
 
 * **Scenarios**
 
 - Year + Month - Summary for that specific month.
 - Year only - Summary for the entire year.
--  No filters - Summary across all available transactions.
 
 ### **Implementation Details**
 
