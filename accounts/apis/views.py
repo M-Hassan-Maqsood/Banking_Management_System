@@ -10,7 +10,7 @@ from django.db.models import Window
 from rest_framework.response import Response
 from rest_framework import status
 
-from BMS.choices import AccountType, AmountType
+from BMS.choices import AmountType
 from accounts.apis.permissions import IsStaffUser
 from accounts.serializers import AccountSerializer, AccountSummarySerializer
 from accounts.models import Account, Transaction
@@ -48,7 +48,7 @@ class StaffAccountDetailAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsStaffUser]
 
 
-class SummaryAPIView(RetrieveAPIView):
+class AccountSummaryAPIView(RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         year = request.query_params.get("year")
         month = request.query_params.get("month")
@@ -72,8 +72,8 @@ class SummaryAPIView(RetrieveAPIView):
         if month:
             txn = txn.filter(date__month = month)
 
-        report = txn.aggregate(
-            deposit_case = Coalesce(
+        summary = txn.aggregate(
+            total_deposits = Coalesce(
                 Sum(
                 Case(
                     When(type = AmountType.Deposit.value, then = F("amount")),
@@ -83,9 +83,9 @@ class SummaryAPIView(RetrieveAPIView):
                     ), Value(Decimal("0.00"))
             ),
 
-            withdrawal_case=Coalesce(Sum(
+            total_withdrawals=Coalesce(Sum(
                 Case(
-                    When(type = AmountType.Withdrawal.value, then = F("amount")),
+                    When(type = AmountType.Withdrawal.value, then = -F("amount")),
                     default = Value(0),
                     output_field = DecimalField()
                 )
@@ -94,12 +94,12 @@ class SummaryAPIView(RetrieveAPIView):
             max_txn_amount = Coalesce(Max("amount"),Value(Decimal("0.00")))
         )
 
-        annotate = txn.annotate(
+        txn_with_running_balance = txn.annotate(
             running_balance= Coalesce(Window(
                 expression = Sum(
             Case(
                 When(type = AmountType.Deposit.value, then = F("amount")),
-                When(type = AmountType.Withdrawal.value, then = F("amount")),
+                When(type = AmountType.Withdrawal.value, then = -F("amount")),
                 default = Value(0),
                 output_field = DecimalField(),
             )
@@ -109,37 +109,40 @@ class SummaryAPIView(RetrieveAPIView):
             )
         )
 
-        opening_balance = Transaction.objects.filter(
-            account_id = account_id,
-            date__lt = start_date,
-        ).aggregate(
-            balance = Coalesce(
-                Sum(
-                Case(
-                When(type = AmountType.Deposit.value, then = F("amount")),
-                When(type = AmountType.Withdrawal.value, then = -F("amount")),
-                default = Value(0),
-                output_field = DecimalField(),
+        opening_balance = Decimal("0.00")
+        if start_date:
+            opening_balance = Transaction.objects.filter(
+                account_id = account_id,
+                date__lt = start_date,
+            ).aggregate(
+                balance = Coalesce(
+                    Sum(
+                    Case(
+                    When(type = AmountType.Deposit.value, then = F("amount")),
+                    When(type = AmountType.Withdrawal.value, then = -F("amount")),
+                    default = Value(0),
+                    output_field = DecimalField(),
+                    )
+                    ), Value(Decimal("0.00"))
                 )
-                ), Value(Decimal("0.00"))
-            )
-        )["balance"]
+            )["balance"]
 
-        lowest_balance = annotate.aggregate(
+        min_running_balance = txn_with_running_balance.aggregate(
             min_balance = Coalesce(
             Min("running_balance"),
                 Value(Decimal("0.00"))
             )
         )["min_balance"]
 
-        data = {
+        account_report = {
             "account_id": account.id,
             "opening_balance": opening_balance,
-            "total_deposits": report["deposit_case"],
-            "total_withdrawals": report["withdrawal_case"],
-            "max_txn_amount": report["max_txn_amount"],
-            "min_running_balance": lowest_balance,
+            "total_deposits": summary["total_deposits"],
+            "total_withdrawals": summary["total_withdrawals"],
+            "max_txn_amount": summary["max_txn_amount"],
+            "min_running_balance": min_running_balance,
         }
 
-        serializer = AccountSummarySerializer(data)
+        serializer = AccountSummarySerializer(account_report)
+
         return Response(serializer.data, status = status.HTTP_200_OK)
