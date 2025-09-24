@@ -243,3 +243,46 @@ The script performs the following:
  The transactions file is placed inside the **`scripts/`** folder for reuse  
 
 ---
+## Phase 10 : Account Summary Reports (Aggregates & Window Functions)
+
+This phase introduces a financial summary API that leverages advanced Django ORM features such as `aggregates`, `annotations`, and `window functions` to provide analytical insights into account transactions.
+
+Endpoint
+GET /api/reports/{account_id}/summary/?year=YYYY&month=MM
+
+
+* **Query Parameters**
+- year (Optional) - Filter transactions by year.
+- month (Optional) - Filters transactions within that month.
+
+* **Scenarios**
+
+- Year + Month - Summary for that specific month.
+- Year only - Summary for the entire year.
+
+### **Implementation Details**
+
+- **Filtering Transactions**
+- Transactions are retrieved for a given account_id.
+- Optional filters (year, month) refine the dataset.
+
+- **Aggregations**
+- Total Deposits and Withdrawals computed via Case/When + Sum.
+- Maximum Transaction Amount determined using Max.
+
+- **Running Balance**
+- Calculated using Window() ordered by transaction date and id.
+- Ensures cumulative balance is tracked over time.
+- From this, the minimum running balance is extracted.
+
+- **Opening Balance**
+- Derived from transactions before the reporting period.
+- Provides consistency in financial reporting.
+
+### **Postman**
+
+Tested endpoint with different query combinations in [Postman](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262):
+
+- Year only (2024) - returned correct summary for all months of 2023
+- Year + Month (2025-07) - restricted transactions to July 2023
+---
