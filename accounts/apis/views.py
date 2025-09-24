@@ -69,8 +69,11 @@ class AccountSummaryAPIView(RetrieveAPIView):
 
         if year:
             txn = txn.filter(date__year = year)
+            print(txn.count())
         if month:
             txn = txn.filter(date__month = month)
+            print(txn.count())
+
 
         summary = txn.aggregate(
             total_deposits = Coalesce(
@@ -85,7 +88,7 @@ class AccountSummaryAPIView(RetrieveAPIView):
 
             total_withdrawals=Coalesce(Sum(
                 Case(
-                    When(type = AmountType.Withdrawal.value, then = -F("amount")),
+                    When(type = AmountType.Withdrawal.value, then = F("amount")),
                     default = Value(0),
                     output_field = DecimalField()
                 )
@@ -93,13 +96,17 @@ class AccountSummaryAPIView(RetrieveAPIView):
             ),
             max_txn_amount = Coalesce(Max("amount"),Value(Decimal("0.00")))
         )
+        #print(txn.count())
+        print(summary["total_withdrawals"])
+        print(summary["total_deposits"])
+
 
         txn_with_running_balance = txn.annotate(
             running_balance= Coalesce(Window(
                 expression = Sum(
             Case(
                 When(type = AmountType.Deposit.value, then = F("amount")),
-                When(type = AmountType.Withdrawal.value, then = -F("amount")),
+                When(type = AmountType.Withdrawal.value, then = F("amount")),
                 default = Value(0),
                 output_field = DecimalField(),
             )
