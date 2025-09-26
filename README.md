@@ -286,3 +286,21 @@ Tested endpoint with different query combinations in [Postman](https://lively-su
 - Year only (2024) - returned correct summary for all months of 2023
 - Year + Month (2025-07) - restricted transactions to July 2023
 ---
+## Phase 11: Cross-Bank Analytics
+
+This part provides a **Cross-Bank Analytics API** built with Django REST Framework.  
+It aggregates transaction data across multiple banks and their branches to deliver financial insights.
+
+---
+
+### **Features**
+
+- **Filter by Year** - Transactions can be filtered using a `year` query parameter.  
+- **Bank-level Analytics** - Provides per-bank totals:  
+  - Total Deposits  
+  - Total Withdrawals  
+  - Net Inflow (Deposits - Withdrawals)  
+- **Branch-level Analytics** - Provides per-branch breakdowns with the same financial metrics.
+- **No Loops or List Comprehensions** - All calculations done at the database level.
+- **Test with Postman** - Easily test the API endpoints by importing them into [Postman](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262)
+---
