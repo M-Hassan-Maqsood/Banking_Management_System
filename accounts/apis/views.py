@@ -14,6 +14,7 @@ from BMS.choices import AmountType
 from accounts.apis.permissions import IsStaffUser
 from accounts.serializers import AccountSerializer, AccountSummarySerializer
 from accounts.models import Account, Transaction
+from accounts.utils import get_bank_analytics, get_branch_analytics
 
 
 class AccountListCreateAPIView(ListCreateAPIView):
@@ -145,3 +146,22 @@ class AccountSummaryAPIView(RetrieveAPIView):
         serializer = AccountSummarySerializer(account_report)
 
         return Response(serializer.data, status = status.HTTP_200_OK)
+
+
+class CrossBankAnalyticsAPIView(RetrieveAPIView):
+    def retrieve(self, request, *args, **kwargs):
+        year = request.query_params.get("year")
+        tnx = Transaction.objects.all()
+        if year:
+            tnx = tnx.filter(date__year = year)
+
+        banks = get_bank_analytics(tnx)
+        branches = get_branch_analytics(tnx)
+
+        context = {
+            "year": year,
+            "Banks": list(banks),
+            "Branches": list(branches)
+        }
+
+        return Response(context, status = status.HTTP_200_OK)
