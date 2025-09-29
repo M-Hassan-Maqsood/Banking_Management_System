@@ -14,7 +14,7 @@ from BMS.choices import AmountType
 from accounts.apis.permissions import IsStaffUser
 from accounts.serializers import AccountSerializer, AccountSummarySerializer
 from accounts.models import Account, Transaction
-from banks.models import Bank
+from accounts.utils import get_bank_analytics, get_branch_analytics
 
 
 class AccountListCreateAPIView(ListCreateAPIView):
@@ -155,56 +155,13 @@ class CrossBankAnalyticsAPIView(RetrieveAPIView):
         if year:
             tnx = tnx.filter(date__year = year)
 
-        banks = tnx.values(
-            bank_id = F("account__branch__bank__id"),
-            bank_name = F("account__branch__bank__name"),
-            bank_is_islamic = F("account__branch__bank__is_islamic")
-        ).annotate(
-            total_deposits=Coalesce(Sum(
-                Case(
-                    When(type=AmountType.Deposit.value, then=F("amount")),
-                    default=Value(0),
-                    output_field=DecimalField()
-                )
-            ), Value(Decimal("0.00"))
-            ),
-            total_withdrawals = Coalesce(Sum(
-            Case(
-                When(type=AmountType.Withdrawal.value, then=F("amount")),
-                default=Value(0),
-                output_field=DecimalField()
-            )
-        ), Value(Decimal("0.00"))
-        )
-        ).annotate(
-            net = F("total_deposits") - F("total_withdrawals")
-        )
+        banks = get_bank_analytics(tnx)
+        branches = get_branch_analytics(tnx)
 
-        branches = tnx.values(
-            bank_id = F("account__branch__bank__id"),
-            branch_id = F("account__branch__id"),
-            bank_name = F("account__branch__bank__name"),
-            bank_is_islamic = F("account__branch__bank__is_islamic"),
-            branch_name = F("account__branch__name")
-        ).annotate(
-            total_deposits=Coalesce(Sum(
-                Case(
-                    When(type=AmountType.Deposit.value, then=F("amount")),
-                    default=Value(0),
-                    output_field=DecimalField()
-                )
-            ), Value(Decimal("0.00"))
-            ),
-            total_withdrawals = Coalesce(Sum(
-            Case(
-                When(type=AmountType.Withdrawal.value, then=F("amount")),
-                default=Value(0),
-                output_field=DecimalField()
-            )
-        ), Value(Decimal("0.00"))
-        )
-        ).annotate(
-            net = F("total_deposits") - F("total_withdrawals")
-        )
+        context = {
+            "year": year,
+            "Banks": list(banks),
+            "Branches": list(branches)
+        }
 
-        return Response({"year": year, "Banks": list(banks), "Branches": list(branches)}, status = status.HTTP_200_OK)
+        return Response(context, status = status.HTTP_200_OK)
