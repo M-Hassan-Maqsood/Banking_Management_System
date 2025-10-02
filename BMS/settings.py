@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django_filters",
     "constance",
     "django_extensions",
+    "django_celery_beat",
     
     "banks",
     "users",
@@ -52,6 +53,13 @@ INSTALLED_APPS = [
 ]
 
 CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6380/0"
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6380/0"
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

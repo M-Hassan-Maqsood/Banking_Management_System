@@ -1,0 +1,27 @@
+from django.core.mail import send_mail
+from decimal import Decimal
+
+from BMS.celery import app
+from BMS.choices import AccountType
+
+
+@app.task
+def send_account_created_email(user_email, account_id):
+    subject = "New Account Created"
+    message = f"Your new account (ID: {account_id}) has been created successfully."
+    send_mail(
+        subject,
+        message,
+        "hassan@gmail.com",
+        [user_email],
+        fail_silently=False,
+    )
+
+
+@app.task
+def calculate_daily_interest():
+    accounts = AccountType.SAVING.value.objects.all()
+    for account in accounts:
+        interest = account.balance * Decimal("0.1")  # 0.1% interest
+        account.balance += interest
+        account.save()

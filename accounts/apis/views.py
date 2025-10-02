@@ -15,6 +15,7 @@ from accounts.apis.permissions import IsStaffUser
 from accounts.serializers import AccountSerializer, AccountSummarySerializer
 from accounts.models import Account, Transaction
 from accounts.utils import get_bank_analytics, get_branch_analytics
+from accounts.tasks import send_account_created_email
 
 
 class AccountListCreateAPIView(ListCreateAPIView):
@@ -29,7 +30,11 @@ class AccountListCreateAPIView(ListCreateAPIView):
         if self.request.user.is_staff:
             return Account.objects.all()
 
-        return Account.objects.filter(user = self.request.user)
+        return Account.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        account = serializer.save(user=self.request.user)
+        send_account_created_email.delay(self.request.user.email, account.id)
 
 
 class AccountBalanceUpdateAPIView(UpdateAPIView):
@@ -55,9 +60,9 @@ class AccountSummaryAPIView(RetrieveAPIView):
         month = request.query_params.get("month")
         account_id = kwargs.get("pk")
 
-        account = Account.objects.get(id = account_id)
+        account = Account.objects.get(id=account_id)
         if not account:
-            return Response({"Account does not found"},status=status.HTTP_404_NOT_FOUND)
+            return Response({"Account does not found"}, status=status.HTTP_404_NOT_FOUND)
 
         if month and year:
             start_date = datetime.date(int(year), int(month), 1)
@@ -66,70 +71,70 @@ class AccountSummaryAPIView(RetrieveAPIView):
         else:
             start_date = None
 
-        txn = Transaction.objects.filter(account_id = account_id)
+        txn = Transaction.objects.filter(account_id=account_id)
         if year:
-            txn = txn.filter(date__year = year)
+            txn = txn.filter(date__year=year)
         if month:
-            txn = txn.filter(date__month = month)
+            txn = txn.filter(date__month=month)
 
         summary = txn.aggregate(
-            total_deposits = Coalesce(
+            total_deposits=Coalesce(
                 Sum(
-                Case(
-                    When(type = AmountType.Deposit.value, then = F("amount")),
-                    default = Value(0),
-                    output_field = DecimalField()
-                )
-                    ), Value(Decimal("0.00"))
+                    Case(
+                        When(type=AmountType.Deposit.value, then=F("amount")),
+                        default=Value(0),
+                        output_field=DecimalField()
+                    )
+                ), Value(Decimal("0.00"))
             ),
 
             total_withdrawals=Coalesce(Sum(
                 Case(
-                    When(type = AmountType.Withdrawal.value, then = F("amount")),
-                    default = Value(0),
-                    output_field = DecimalField()
+                    When(type=AmountType.Withdrawal.value, then=F("amount")),
+                    default=Value(0),
+                    output_field=DecimalField()
                 )
             ), Value(Decimal("0.00"))
             ),
-            max_txn_amount = Coalesce(Max("amount"),Value(Decimal("0.00")))
+            max_txn_amount=Coalesce(Max("amount"), Value(Decimal("0.00")))
         )
 
         opening_balance = Decimal("0.00")
         if start_date:
             opening_balance = Transaction.objects.filter(
-                account_id = account_id,
-                date__lt = start_date,
+                account_id=account_id,
+                date__lt=start_date,
             ).aggregate(
                 balance=Coalesce(
                     Sum(
                         Case(
-                            When(type = AmountType.Deposit.value, then = F("amount")),
-                            When(type = AmountType.Withdrawal.value, then = -F("amount")),
-                            default = Value(0),
-                            output_field = DecimalField(),
+                            When(type=AmountType.Deposit.value, then=F("amount")),
+                            When(type=AmountType.Withdrawal.value, then=-F("amount")),
+                            default=Value(0),
+                            output_field=DecimalField(),
                         )
                     ), Value(Decimal("0.00"))
                 )
             )["balance"]
 
         txn_with_running_balance = txn.annotate(
-            running_balance= Coalesce(Window(
-                expression = Sum(
-            Case(
-                When(type = AmountType.Deposit.value, then = F("amount")),
-                When(type = AmountType.Withdrawal.value, then = -F("amount")),
-                default = Value(0),
-                output_field = DecimalField(),
-            )
-        ),
-            order_by = ["date","id"]
-                ), Value(Decimal("0.00"))
+            running_balance=Coalesce(Window(
+                expression=Sum(
+                    Case(
+                        When(type=AmountType.Deposit.value, then=F("amount")),
+                        When(type=AmountType.Withdrawal.value, then=-F("amount")),
+                        default=Value(0),
+                        output_field=DecimalField(),
+                    )
+                ),
+                order_by=["date", "id"]
+            ), Value(Decimal("0.00"))
             ) + Value(opening_balance)
         )
 
         min_running_balance = txn_with_running_balance.aggregate(
-            min_balance = Coalesce(
-            Min("running_balance"),
+            min_balance=Coalesce(
+                Min("running_balance"),
                 Value(Decimal("0.00"))
             )
         )["min_balance"]
@@ -145,7 +150,7 @@ class AccountSummaryAPIView(RetrieveAPIView):
 
         serializer = AccountSummarySerializer(account_report)
 
-        return Response(serializer.data, status = status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CrossBankAnalyticsAPIView(RetrieveAPIView):
@@ -153,7 +158,7 @@ class CrossBankAnalyticsAPIView(RetrieveAPIView):
         year = request.query_params.get("year")
         tnx = Transaction.objects.all()
         if year:
-            tnx = tnx.filter(date__year = year)
+            tnx = tnx.filter(date__year=year)
 
         banks = get_bank_analytics(tnx)
         branches = get_branch_analytics(tnx)
@@ -164,4 +169,4 @@ class CrossBankAnalyticsAPIView(RetrieveAPIView):
             "Branches": list(branches)
         }
 
-        return Response(context, status = status.HTTP_200_OK)
+        return Response(context, status=status.HTTP_200_OK)
