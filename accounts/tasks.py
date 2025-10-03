@@ -1,5 +1,6 @@
-from django.core.mail import send_mail
 from decimal import Decimal
+
+from django.core.mail import send_mail
 
 from BMS.celery import app
 from BMS.choices import AccountType

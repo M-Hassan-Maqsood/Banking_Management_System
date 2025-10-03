@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from unittest.mock import DEFAULT
 
 from BMS.constance import CONSTANCE_CONFIG
 
@@ -62,9 +61,9 @@ INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_PACKAGES + CUSTOM_APPS
 
 CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
 
-DEFAULT_FROM_EMAIL = 'hassan@gmail.com'
-
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+DEFAULT_FROM_EMAIL = 'hassan@gmail.com'
 
 CELERY_BROKER_URL = f"redis://127.0.0.1:6380"
 CELERY_RESULT_BACKEND = f"redis://127.0.0.1:6380"
