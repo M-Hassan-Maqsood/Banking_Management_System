@@ -15,7 +15,7 @@ from accounts.apis.permissions import IsStaffUser
 from accounts.serializers import AccountSerializer, AccountSummarySerializer
 from accounts.models import Account, Transaction
 from accounts.utils import get_bank_analytics, get_branch_analytics
-from accounts.tasks import send_account_created_email
+from accounts.tasks import send_registration_email
 
 
 class AccountListCreateAPIView(ListCreateAPIView):
@@ -34,7 +34,7 @@ class AccountListCreateAPIView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         account = serializer.save(user=self.request.user)
-        send_account_created_email.delay(account.user.email, account.id)
+        send_registration_email.delay(account.user.email, account.id)
 
         return account
 

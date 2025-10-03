@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .idea/
 db.sqlite3
+*.bat
+*.dat
+*.dir

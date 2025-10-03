@@ -54,6 +54,8 @@ INSTALLED_APPS = [
 
 CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
 
+DEFAULT_FROM_EMAIL = 'hassan@gmail.com'
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 CELERY_BROKER_URL = f"redis://127.0.0.1:6380"
