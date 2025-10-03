@@ -304,3 +304,33 @@ It aggregates transaction data across multiple banks and their branches to deliv
 - **No Loops or List Comprehensions** - All calculations done at the database level.
 - **Test with Postman** - Easily test the API endpoints by importing them into [Postman](https://lively-sunset-851161.postman.co/workspace/Team-Workspace~b615434a-b98d-482a-8dfc-b8a2b4bff805/collection/43201262-d063c160-450e-449f-9c66-3b0407aab5d1?action=share&source=copy-link&creator=43201262)
 ---
+
+# Phase 12 – Background Tasks (Celery + Redis)
+
+## Introduction
+Asynchronous task processing has been integrated into the **Banking Management System (BMS)** using **Celery** with **Redis** as the message broker.  
+The purpose of this is to efficiently handle time consuming tasks, such as sending emails, and to automate scheduled jobs, like daily interest calculation, in the background without blocking the main application.
+
+---
+
+## Setup
+- **Install Tools**: Celery, Redis, Django-Celery-Beat  
+- **Broker & Backend**: Redis running at `127.0.0.1:6380`
+- **Settings Update**: Add `CELERY_BROKER_URL` and `CELERY_RESULT_BACKEND`. 
+
+---
+
+## Features Implemented
+### 1. Asynchronous Email Sending
+- When a **new account** is created, an **email notification** is sent asynchronously.  
+- Emails are logged in the console (Django console email backend).  
+
+### 2. Periodic Daily Interest
+- **0.1% interest per day** applied automatically to all savings accounts.  
+- Scheduled to run daily at **midnight** using **Celery Beat**.  
+
+### 3. Admin Integration
+- **Django Admin -> Periodic Tasks** (via `django-celery-beat`).  
+- Admin users can create, edit, and manage scheduled jobs.
+
+---

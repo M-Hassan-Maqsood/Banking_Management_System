@@ -56,8 +56,8 @@ CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-CELERY_BROKER_URL = "redis://127.0.0.1:6380/0"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6380/0"
+CELERY_BROKER_URL = f"redis://127.0.0.1:6380"
+CELERY_RESULT_BACKEND = f"redis://127.0.0.1:6380"
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 

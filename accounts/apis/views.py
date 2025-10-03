@@ -34,7 +34,9 @@ class AccountListCreateAPIView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         account = serializer.save(user=self.request.user)
-        send_account_created_email.delay(self.request.user.email, account.id)
+        send_account_created_email.delay(account.user.email, account.id)
+
+        return account
 
 
 class AccountBalanceUpdateAPIView(UpdateAPIView):

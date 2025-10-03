@@ -14,14 +14,14 @@ def send_account_created_email(user_email, account_id):
         message,
         "hassan@gmail.com",
         [user_email],
-        fail_silently=False,
     )
+    print(f"[Celery] Email sent to {user_email} for account {account_id}")
 
 
 @app.task
 def calculate_daily_interest():
     accounts = AccountType.SAVING.value.objects.all()
     for account in accounts:
-        interest = account.balance * Decimal("0.1")  # 0.1% interest
+        interest = account.balance * Decimal("0.1")
         account.balance += interest
         account.save()
