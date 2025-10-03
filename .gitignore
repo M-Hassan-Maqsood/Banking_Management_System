@@ -2,6 +2,6 @@ __pycache__/
 *.pyc
 .idea/
 db.sqlite3
-*.bat
+*.bak
 *.dat
 *.dir
