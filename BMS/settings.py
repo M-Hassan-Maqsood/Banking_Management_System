@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from unittest.mock import DEFAULT
+
 from BMS.constance import CONSTANCE_CONFIG
 
 
@@ -32,25 +34,31 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
 
+THIRD_PARTY_PACKAGES = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
     "constance",
     "django_extensions",
     "django_celery_beat",
-    
+]
+
+CUSTOM_APPS = [
     "banks",
     "users",
     "accounts",
 ]
+
+INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_PACKAGES + CUSTOM_APPS
 
 CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
 
