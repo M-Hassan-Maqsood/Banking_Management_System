@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+
 from BMS.constance import CONSTANCE_CONFIG
 
 
@@ -32,26 +33,42 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
 
+THIRD_PARTY_PACKAGES = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
     "constance",
     "django_extensions",
-    
+    "django_celery_beat",
+]
+
+CUSTOM_APPS = [
     "banks",
     "users",
     "accounts",
 ]
 
+INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_PACKAGES + CUSTOM_APPS
+
 CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+DEFAULT_FROM_EMAIL = 'hassan@gmail.com'
+
+CELERY_BROKER_URL = f"redis://127.0.0.1:6380"
+CELERY_RESULT_BACKEND = f"redis://127.0.0.1:6380"
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
