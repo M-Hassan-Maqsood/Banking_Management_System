@@ -15,7 +15,7 @@ class AccountAPIPermissionTests(APITestCase):
         self.client = APIClient()
 
         common_fields = {
-            "email": "example@gmail.com",
+            "email": "common@gmail.com",
             "phone": "+923001112233",
             "date_of_birth": date(1999, 11, 5),
             "is_active": True,
@@ -46,20 +46,20 @@ class AccountAPIPermissionTests(APITestCase):
         self.assertEqual(response.status_code, 401)
         self.assertIn("detail", response.data)
 
-    def test_normal_user_can_only_see_their_own_account(self):
+    def test_normal_user_access_own_account(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.normal_token.key)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data["results"]), 1)
         self.assertEqual(response.data["results"][0]["user"], self.normal_user.id)
 
-    def test_staff_user_can_see_all_accounts(self):
+    def test_staff_user_access_all_account(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.staff_token.key)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data["results"]), 2)
 
-    def test_user_can_update_own_balance(self):
+    def test_user_update_own_balance(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.normal_token.key)
         url = reverse('account-balance-api', args=[self.account1.id])
         response = self.client.patch(url, {"balance": 1500}, format='json')
@@ -83,7 +83,7 @@ class AccountAPIPermissionTests(APITestCase):
         self.account2.refresh_from_db()
         self.assertEqual(self.account2.balance, 3000)
 
-    def test_filtering_and_search(self):
+    def test_filter_and_search(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.staff_token.key)
         response = self.client.get(self.url, {"account_type": "current"})
         self.assertEqual(response.status_code, 200)
