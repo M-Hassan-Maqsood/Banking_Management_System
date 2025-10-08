@@ -336,7 +336,7 @@ The purpose of this is to efficiently handle time consuming tasks, such as sendi
 ---
 # Phase 13: Testing – Quality Assurance
 
-This phase focuses on ensuring the **reliability, accuracy, and security** of the Banking Management System (BMS) API through **automated testing** and **coverage analysis**.  
+This phase focuses on ensuring the **reliability, accuracy, and security** of the Banking Management System (BMS) API's through **automated testing** and **coverage analysis**.  
 Testing validates that the system behaves as expected across user roles, authentication layers, and core business logic.
 
 ---

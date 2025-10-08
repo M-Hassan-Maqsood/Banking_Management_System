@@ -7,3 +7,4 @@ celery == 5.5.3
 redis == 6.4.0
 django-celery-beat == 2.8.1
 coverage == 7.10.7
+factory_boy == 3.3.3
