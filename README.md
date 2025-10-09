@@ -334,3 +334,44 @@ The purpose of this is to efficiently handle time consuming tasks, such as sendi
 - Admin users can create, edit, and manage schedule jobs.
 
 ---
+# Phase 13: Testing – Quality Assurance
+
+This phase focuses on ensuring the **reliability, accuracy and security** of the Banking Management System (BMS) API's through **automate testing** and **coverage analysis**.  
+Testing validates that the system behaves as expected across multiple user roles, authentication layers and core business logic.
+
+---
+
+## API Test Cases
+
+### 1. User Access Control
+**Goal:** Ensure that a normal user can only view and manage their own accounts.  
+- **Expected Result:**
+  - `GET /api/accounts/` -> returns only the logged-in user’s accounts.  
+  - `403 Forbidden` if accessing another user’s account.
+
+### 2. Staff Access Control
+**Goal:** Validate that staff (admin) users can access and manage all accounts.  
+- **Expected Result:**
+  - `GET /api/accounts/` -> returns all accounts.
+
+### 3. Authentication Requirement
+**Goal:** Verify that protected endpoints require authentication.  
+- **Expected Result:**
+  - Unauthenticated requests → `401 Unauthorized`.  
+  - Authenticated requests → `200 OK`.
+
+### 4. Account Balance Update
+**Goal:** Confirm that balance updates work correctly.  
+- **Expected Result:**
+  - Authenticated users can update their own balance.  
+  - Staff can update any account’s balance.  
+  - Unauthorized updates → `403 Forbidden`.
+
+### 5. Filtering and Search
+**Goal:** Validate backend filtering and search logic using `DjangoFilterBackend`.  
+- **Expected Result:**
+  - Filtering by `account_type`, `branch__bank__name` or `is_islamic` returns correct results.  
+  - Searching by user’s name or username works correctly.  
+  - Invalid filters → `400 Bad Request`.
+
+---

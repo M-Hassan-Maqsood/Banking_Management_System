@@ -1,8 +1,10 @@
-﻿Django == 5.2.6
-djangorestframework == 3.16.1
-django-filter == 25.1
-django-constance == 4.3.2
-django-extensions == 4.1
-celery == 5.5.3
-redis == 6.4.0
-django-celery-beat == 2.8.1
+﻿Django==5.2.6
+djangorestframework==3.16.1
+django-filter==25.1
+django-constance==4.3.2
+django-extensions==4.1
+celery==5.5.3
+redis==6.4.0
+django-celery-beat==2.8.1
+coverage==7.10.7
+factory_boy==3.3.3
