@@ -336,8 +336,8 @@ The purpose of this is to efficiently handle time consuming tasks, such as sendi
 ---
 # Phase 13: Testing – Quality Assurance
 
-This phase focuses on ensuring the **reliability, accuracy, and security** of the Banking Management System (BMS) API's through **automated testing** and **coverage analysis**.  
-Testing validates that the system behaves as expected across user roles, authentication layers, and core business logic.
+This phase focuses on ensuring the **reliability, accuracy and security** of the Banking Management System (BMS) API's through **automate testing** and **coverage analysis**.  
+Testing validates that the system behaves as expected across user roles, authentication layers and core business logic.
 
 ---
 
@@ -378,7 +378,7 @@ Testing validates that the system behaves as expected across user roles, authent
 ### 5. Filtering and Search
 **Goal:** Validate backend filtering and search logic using `DjangoFilterBackend`.  
 - **Expected Result:**
-  - Filtering by `account_type`, `branch__bank__name`, or `is_islamic` returns correct results.  
+  - Filtering by `account_type`, `branch__bank__name` or `is_islamic` returns correct results.  
   - Searching by user’s name or username works correctly.  
   - Invalid filters → `400 Bad Request`.
 

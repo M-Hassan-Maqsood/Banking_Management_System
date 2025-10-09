@@ -4,7 +4,7 @@ from accounts.factories import UserFactory
 
 
 class AuthMixin:
-    def setUpAuth(self):
+    def set_up_auth(self):
         self.staff_user = UserFactory(is_staff=True)
         self.normal_user = UserFactory()
         self.other_user = UserFactory()

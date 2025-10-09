@@ -6,9 +6,9 @@ from accounts.mixins import AuthMixin
 
 
 class AccountAPIPermissionTest(AuthMixin, APITestCase):
-    def setUp(self):
+    def setup(self):
         self.client = APIClient()
-        self.setUpAuth()
+        self.set_up_auth()
 
         self.bank = BankFactory()
         self.branch = BranchFactory(bank=self.bank)
