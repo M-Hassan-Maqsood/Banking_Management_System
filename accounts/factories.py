@@ -38,25 +38,25 @@ class BankFactory(DjangoModelFactory):
 
 class BranchFactory(DjangoModelFactory):
     name = factory.Faker("city")
-    bank = factory.SubFactory(BankFactory)
     branch_code = factory.Sequence(lambda n: f"B{n:03}")
-
     address = factory.Faker("address")
     created_at = factory.Faker("past_datetime", start_date="-15d", tzinfo=timezone.utc)
+
+    bank = factory.SubFactory(BankFactory)
 
     class Meta:
         model = Branch
 
 
 class AccountFactory(DjangoModelFactory):
-    user = factory.SubFactory(UserFactory)
-    branch = factory.SubFactory(BranchFactory)
     account_type = factory.Iterator(["CURRENT", "SAVINGS"])
     balance = factory.Faker("random_int", min=500, max=10000)
-
     is_active = factory.Faker("boolean")
     account_number = factory.Sequence(lambda n: 10000+n)
     created_at = factory.Faker("past_datetime", start_date="-15d", tzinfo=timezone.utc)
+
+    user = factory.SubFactory(UserFactory)
+    branch = factory.SubFactory(BranchFactory)
 
     class Meta:
         model = Account
