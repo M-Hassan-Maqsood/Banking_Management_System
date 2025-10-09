@@ -1,5 +1,5 @@
-from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse
+from rest_framework.test import APITestCase, APIClient
 
 from accounts.factories import AccountFactory, BankFactory, BranchFactory
 from accounts.mixins import AuthMixin
