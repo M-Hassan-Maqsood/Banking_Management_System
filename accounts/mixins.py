@@ -11,9 +11,9 @@ class AuthMixin:
         self.staff_token = Token.objects.create(user=self.staff_user)
         self.user_token = Token.objects.create(user=self.user)
 
-    def auth_as_staff(self):
+    def auth_staff(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.staff_token.key)
 
-    def auth_as_user(self):
+    def auth_user(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.user_token.key)
 

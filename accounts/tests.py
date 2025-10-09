@@ -26,7 +26,7 @@ class AccountAPIPermissionTest(AuthMixin, APITestCase):
         self.assertIn("detail", response.data)
 
     def test_user_access_own_account(self):
-        self.auth_as_user()
+        self.auth_user()
         response = self.client.get(self.account_list_url)
 
         self.assertEqual(response.status_code, 200)
@@ -34,14 +34,14 @@ class AccountAPIPermissionTest(AuthMixin, APITestCase):
         self.assertEqual(response.data["results"][0]["user"], self.user.id)
 
     def test_staff_access_all_account(self):
-        self.auth_as_staff()
+        self.auth_staff()
         response = self.client.get(self.account_list_url)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data["results"]), 2)
 
     def test_user_update_balance(self):
-        self.auth_as_user()
+        self.auth_user()
         url = reverse('account-balance-api', args=[self.account_1.id])
         response = self.client.patch(url, {"balance": 1500}, format='json')
 
@@ -50,14 +50,14 @@ class AccountAPIPermissionTest(AuthMixin, APITestCase):
         self.assertEqual(self.account_1.balance, 1500)
 
     def test_user_cannot_update_others_balance(self):
-        self.auth_as_user()
+        self.auth_user()
         url = reverse('account-balance-api', args=[self.account_2.id])
         response = self.client.patch(url, {"balance": 2000}, format='json')
 
         self.assertEqual(response.status_code, 403)
 
     def test_staff_update_any_balance(self):
-        self.auth_as_staff()
+        self.auth_staff()
         url = reverse('account-balance-api', args=[self.account_2.id])
         response = self.client.patch(url, {"balance": 3000}, format='json')
 
@@ -66,14 +66,14 @@ class AccountAPIPermissionTest(AuthMixin, APITestCase):
         self.assertEqual(self.account_2.balance, 3000)
 
     def test_invalid_balance_update(self):
-        self.auth_as_staff()
+        self.auth_staff()
         url = reverse('staff-detail-api', args=[self.account_1.id])
         response = self.client.patch(url, {"balance": -100}, format='json')
 
         self.assertEqual(response.status_code, 400)
 
     def test_filter_and_search(self):
-        self.auth_as_staff()
+        self.auth_staff()
         response = self.client.get(self.account_list_url, {"account_type": "current"})
 
         self.assertEqual(response.status_code, 200)
